@@ -9,7 +9,7 @@ public class Game extends Canvas implements Runnable {
     public static final int WIDTH = 160;
     public static final int HEIGHT = WIDTH / 12 * 9;
     public static final int SCALE = 3;
-    public static final String NAME = "Game";
+    public static final String NAME = "Ping_Pong";
 
     private JFrame frame;
 
@@ -44,6 +44,8 @@ public class Game extends Canvas implements Runnable {
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        socketClient = new GameClient(this, "localhost");
+        socketClient.start();
 
     }
 
@@ -61,20 +63,22 @@ public class Game extends Canvas implements Runnable {
                 }
             }
         }
-        socketClient.sendPacket("ping".getBytes());
     }
 
     public synchronized void start() {
         running = true;
         new Thread(this).start();
 
-        if (JOptionPane.showConfirmDialog(this, "Start Server?") == 0) {
+        int dialogue = JOptionPane.showConfirmDialog(this, "Start Server?");
+        if (dialogue == 0 ) {
             socketServer = new GameServer(this);
             socketServer.start();
+            System.out.println("Server Running." + " Thread ID: " + socketServer.threadId());
         }
 
         socketClient = new GameClient(this, "localhost");
         socketClient.start();
+        System.out.println("Client Running." + " Thread ID: " + socketClient.threadId());
     }
 
     public synchronized void stop() {
@@ -84,6 +88,12 @@ public class Game extends Canvas implements Runnable {
     public void run() {
         long lastTime = System.nanoTime();
         double nsTick = 100000000D / 60D;
+    }
+
+    public static void main(String[] args){
+        Game bobp = new Game();
+        bobp.start();
+        bobp.socketClient.sendPacket("ping".getBytes());
     }
 }
 
