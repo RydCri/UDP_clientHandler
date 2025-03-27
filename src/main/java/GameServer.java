@@ -3,8 +3,7 @@ import java.net.InetAddress;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.lang.Thread;
+
 
 public class GameServer {
     private DatagramSocket socket;
@@ -35,15 +34,15 @@ public class GameServer {
             }
                 //Ping pong test
                 String msg = new String(packet.getData());
+                System.out.println("Client connected: " + msg);
                 if (msg.equalsIgnoreCase("ping")) {
-                    System.out.println("Client connected: " + msg);
-                    sendPacket("pong".getBytes());
+                    sendPacket("pong".getBytes(), packet.getAddress(), packet.getPort());
                 }
         }
     }
 
-    public void sendPacket(byte[] data) {
-        DatagramPacket packet = new DatagramPacket(data, data.length, IpAddress, 1501);
+    public void sendPacket(byte[] data, InetAddress ipAddress, int port) {
+        DatagramPacket packet = new DatagramPacket(data, data.length, ipAddress, port);
         try {
             socket.send(packet);
         }catch (IOException e ) {
