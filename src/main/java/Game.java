@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
+
 
 public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = 1L;
@@ -14,16 +13,7 @@ public class Game extends Canvas implements Runnable {
     private JFrame frame;
 
     public boolean running = false;
-    public int tickCount = 0;
 
-    private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-    private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
-    private int[] colors = new int[7 * 7 * 7];
-
-    private Screen screen;
-    public InputHandler input;
-    public Level level;
-    public Player player;
 
     private GameClient socketClient;
     private GameServer socketServer;
@@ -49,22 +39,6 @@ public class Game extends Canvas implements Runnable {
 
     }
 
-    public void init() {
-        int index = 0;
-        for (int r = 0; r < 6; r++) {
-            for (int g = 0; g < 6; g++) {
-                for (int b = 0; b < 6; b++) {
-                    int rr = (r * 255 / 5);
-                    int gg = (g * 255 / 5);
-                    int bb = (b * 255 /5);
-
-                    colors[index++] = rr << 16 | gg << 8 | bb;
-
-                }
-            }
-        }
-    }
-
     public synchronized void start() {
         running = true;
         new Thread(this).start();
@@ -85,15 +59,12 @@ public class Game extends Canvas implements Runnable {
         running = false;
     }
 
-    public void run() {
-        long lastTime = System.nanoTime();
-        double nsTick = 100000000D / 60D;
-    }
+    public void run() {}
 
     public static void main(String[] args){
-        Game bobp = new Game();
-        bobp.start();
-        bobp.socketClient.sendPacket("ping".getBytes());
+        Game pingPong = new Game();
+        pingPong.start();
+        pingPong.socketClient.sendPacket("ping".getBytes());
     }
 }
 
