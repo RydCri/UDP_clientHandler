@@ -1,8 +1,5 @@
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.SocketException;
+import java.net.*;
 
 
 public class GameServer extends Thread{
@@ -25,17 +22,14 @@ public class GameServer extends Thread{
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
             try {
                 socket.receive(packet);
-
-                // Trim the byte array to actual data length
-                String received = new String(packet.getData(), 0, packet.getLength()).trim();
-                System.out.println("Received Server Packet: " + received);
+                System.out.println("Server received packet from /" + packet.getSocketAddress());
             } catch (IOException e) {
                 System.err.println("Error receiving packet: " + e.getMessage());
             }
                 //Ping pong test
                 String msg = new String(packet.getData());
-                System.out.println("Client connected: " + msg);
-                if (msg.equalsIgnoreCase("ping")) {
+                System.out.println("Client says " + msg.trim());
+                if (msg.trim().equalsIgnoreCase("ping")) {
                     sendPacket("pong".getBytes(), packet.getAddress(), packet.getPort());
                 }
         }

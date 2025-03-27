@@ -32,10 +32,11 @@ public class GameClient extends Thread{
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
             try {
                 socket.receive(packet);
+                System.out.println("Client received packet from /" + packet.getSocketAddress());
 
                 // Trim the byte array to actual data length
                 String received = new String(packet.getData(), 0, packet.getLength()).trim();
-                System.out.println("Received Server Packet: " + received);
+                System.out.println("Server says " + received);
             } catch (IOException e) {
                 System.err.println("Error receiving packet: " + e.getMessage());
             }
