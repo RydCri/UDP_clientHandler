@@ -1,7 +1,7 @@
 This repo is to preserve a simple demonstration of a UDP exchange.
 
 
-<br></br >
+<br></br>
 <h4> Running <span style="color:green">Game.main()</span> generates a dialogue box. </h4>
 
 <img src="src/main/resources/Jframe.png" style="height: 250px;" alt="">
@@ -9,5 +9,5 @@ This repo is to preserve a simple demonstration of a UDP exchange.
 
 The <span style="color:yellow">client</span> sends a packet with the message 'ping' to the <span style="color:orange">server</span>. </br>
 The <span style="color:orange">server</span>, if it receives the message, replies to the <span style="color:yellow">client</span> 'pong'.
-
+<br></br>
 <img src="src/main/resources/ping_pong.png" style="height: 150px;" alt="">
