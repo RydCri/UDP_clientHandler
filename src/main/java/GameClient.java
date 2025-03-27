@@ -11,9 +11,17 @@ public class GameClient {
 
     public GameClient(Game game, String IpAddress) {
         this.game = game;
-        this.IpAddress = InetAddress.IpAddress;
-        //todo: Socket + Host Exception
-        // void run()
+        try {
+            this.socket = new DatagramSocket();
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        try {
+            this.IpAddress = InetAddress.getByName(IpAddress);
+        }
+        catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
     }
 
 }
