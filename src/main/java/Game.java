@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-
+// This code was originally going to be multiplayer game, don't let any leftover boilerplate confuse you
 public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = 1L;
 
@@ -34,6 +34,7 @@ public class Game extends Canvas implements Runnable {
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        // socket start
         socketClient = new GameClient(this, "localhost");
         socketClient.start();
 
@@ -59,6 +60,7 @@ public class Game extends Canvas implements Runnable {
         running = false;
     }
 
+    // a run method is required by the Runnable interface
     public void run() {}
 
     public static void main(String[] args){
