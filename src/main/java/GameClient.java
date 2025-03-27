@@ -4,6 +4,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.lang.Thread;
 
 public class GameClient {
     private InetAddress IpAddress;
@@ -27,18 +28,33 @@ public class GameClient {
     }
     public void run() {
         while (true) {
-            byte[] buffer = new byte[1024];
-            DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
             try {
+                byte[] buffer = new byte[1024];
+                DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
                 socket.receive(packet);
+
+                // Trim the byte array to actual data length
+                String received = new String(packet.getData(), 0, packet.getLength()).trim();
+                System.out.println("Received Server Packet: " + received);
+
             } catch (IOException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Received Server Packet: " + new String(packet.getData()));
+                System.err.println("Error receiving packet: " + e.getMessage());
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt(); // Restore interrupted status
+                    break; // Exit loop on interrupt
+                }
             }
         }
+    }
 
         public void sendPacket(byte[] data) {
         DatagramPacket packet = new DatagramPacket(data, data.length, IpAddress, 1501);
+        try {
+            socket.send(packet);
+        }catch (IOException e ) {
+            e.printStackTrace();
+        }
         }
     }
