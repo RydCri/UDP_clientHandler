@@ -1,6 +1,9 @@
-import javax.xml.crypto.Data;
 import java.io.IOException;
-import java.net.*;
+import java.net.InetAddress;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 
 public class GameClient {
     private InetAddress IpAddress;
@@ -22,7 +25,7 @@ public class GameClient {
             e.printStackTrace();
         }
     }
-    public void run(){
+    public void run() {
         while (true) {
             byte[] buffer = new byte[1024];
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
@@ -32,9 +35,10 @@ public class GameClient {
                 e.printStackTrace();
             }
             System.out.println("Received Server Packet: " + new String(packet.getData()));
-            // new String(packet.getData(), 0, packet.getLength))
             }
         }
-    }
 
-}
+        public void sendPacket(byte[] data) {
+        DatagramPacket packet = new DatagramPacket(data, data.length, IpAddress, 1501);
+        }
+    }
