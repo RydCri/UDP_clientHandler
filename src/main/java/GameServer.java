@@ -5,7 +5,7 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 
 
-public class GameServer {
+public class GameServer extends Thread{
     private DatagramSocket socket;
 
     public Game game;
