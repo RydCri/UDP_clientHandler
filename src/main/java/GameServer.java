@@ -1,7 +1,7 @@
 import java.io.IOException;
 import java.net.*;
 
-
+// Placeholding
 public class GameServer extends Thread{
     private DatagramSocket socket;
 
