@@ -6,6 +6,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.lang.Thread;
 
+// Placeholding
 public class GameClient extends Thread{
     private InetAddress IpAddress;
     private DatagramSocket socket;
