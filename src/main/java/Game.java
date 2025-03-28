@@ -60,20 +60,21 @@ public class Game extends Canvas implements Runnable {
         long now = System.nanoTime();
         delta += (now - lastTime) / nsTick;
         lastTime = now;
-        boolean shouldRender = false;
+        boolean renderer = true;
 
         while (delta >= 1) {
             ticks++;
             tick();
             delta -= 1;
-            shouldRender = true;
+            renderer = false;
         }
+        // todo: Don't forget the sleep
         try {
             Thread.sleep(2);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if(shouldRender){
+        if(renderer){
             frames++;
             render();
         }
@@ -81,19 +82,35 @@ public class Game extends Canvas implements Runnable {
 
         if (System.currentTimeMillis() - Timer >= 1000) {
             Timer += 1000;
-            System.out.println(frames + "," + ticks);
+            System.out.println(frames + " frames, " + ticks + " ticks");
             frames = 0;
             ticks = 0;
         }
     }
     }
 
+    // this method does funny things to pixels
     public void tick() {
+        tickCount++;
+
+        for (int i = 0; i < pixels.length; i++) {
+         pixels[i] = i + tickCount;
+        }
     }
 
     public void render() {
         BufferStrategy bs = getBufferStrategy();
+        if (bs == null) {
+            createBufferStrategy(3);
+            return;
+        }
+        Graphics g = bs.getDrawGraphics();
 
+        g.setColor(Color.BLACK);
+        // x and y for centering image
+        g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+        g.dispose();
+        bs.show();
     }
 
     public static void main(String[] args){
