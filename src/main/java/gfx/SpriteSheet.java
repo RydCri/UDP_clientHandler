@@ -30,8 +30,9 @@ public class SpriteSheet {
         pixels = image.getRGB(0,0,width,height,null, 0, width);
 
         //set hex prefix
+        //pixels set to colorcode sheet
         for (int i = 0; i < pixels.length;i++){
-            pixels[i] = (pixels[i] & 0xff);
+            pixels[i] = (pixels[i] & 0xff) / 64;
         }
     }
 }
